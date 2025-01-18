@@ -1,0 +1,45 @@
+﻿@model FetchCeudDependices.Models.User
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div>
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Id)</dt>
+        <dd>@Html.DisplayFor(model => model.Id)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Age)</dt>
+        <dd>@Html.DisplayFor(model => model.Age)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Email)</dt>
+        <dd>@Html.DisplayFor(model => model.Email)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Gender)</dt>
+        <dd>@Html.DisplayFor(model => model.Gender)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Address)</dt>
+        <dd>@Html.DisplayFor(model => model.Address)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.CountryName)</dt>
+        <dd>@Html.DisplayFor(model => model.CountryName)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.StateIName)</dt>
+        <dd>@Html.DisplayFor(model => model.StateIName)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.CityName)</dt>
+        <dd>@Html.DisplayFor(model => model.CityName)</dd>
+    </dl>
+
+    @using (Html.BeginForm("Delete", "New", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            |
+            @Html.ActionLink("Back to List", "List", null, new { @class = "btn btn-secondary" })
+        </div>
+    }
+</div>

@@ -1,0 +1,144 @@
+﻿@model FetchCeudDependices.Models.User
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Handle country change
+        $("#CountryName").change(function () {
+            var id = $(this).val();
+            $("#StateIName").empty();
+            $.get("@Url.Action("State_Bind", "New")", { CountryId: id }, function (data) {
+                var options = "<option value=''>---Select State---</option>";
+                $.each(data, function (i, v1) {
+                    options += `<option value="${v1.Value}">${v1.Text}</option>`;
+                });
+                $("#StateIName").html(options);
+            });
+        });
+
+        // Handle state change
+        $("#StateIName").change(function () {
+            var id = $(this).val();
+            $("#CityName").empty();
+            $.get("@Url.Action("City_Bind", "New")", { StateId: id }, function (data) {
+                var options = "<option value=''>---Select City---</option>";
+                $.each(data, function (i, v1) {
+                    options += `<option value="${v1.Value}">${v1.Text}</option>`;
+                });
+                $("#CityName").html(options);
+            });
+        });
+
+    
+    });
+
+
+</script>
+
+<h2>Register Form</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="form-check form-check-inline">
+                @Html.RadioButtonFor(model => model.Gender, "Male", new { @class = "form-check-input", id = "Male" })
+                <label class="form-check-label" for="Male">Male</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @Html.RadioButtonFor(model => model.Gender, "Female", new { @class = "form-check-input", id = "Female" })
+                <label class="form-check-label" for="Female">Female</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @Html.RadioButtonFor(model => model.Gender, "Other", new { @class = "form-check-input", id = "Other" })
+                <label class="form-check-label" for="Other">Other</label>
+            </div>
+            @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+            @Html.LabelFor(model => model.CountryName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.CountryName, (SelectList)ViewBag.Country, "-----Select Country------", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CountryName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.StateIName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.StateIName, Enumerable.Empty<SelectListItem>(), "-----Select State------", new { @class = "form-control", @id = "StateIName" })
+            @Html.ValidationMessageFor(model => model.StateIName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CityName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.CityName, Enumerable.Empty<SelectListItem>(), "-----Select City------", new { @class = "form-control", @id = "CityName" })
+            @Html.ValidationMessageFor(model => model.CityName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="create" class="btn btn-primary">
+            </div>
+        </div>   
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "List")
+</div>
